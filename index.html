@@ -2,46 +2,60 @@
 <html>
 
 <head>
-  <meta charset="utf-8" />
+    <meta charset="utf-8" />
 
-  <title>Geolocation API</title>
+    <title>Geolocation API</title>
 
-  <link href="styles/site.css" rel="stylesheet" />
+    <link href="styles/site.css" rel="stylesheet" />
 </head>
 
 <body>
-  <header>
-    <h1>Get Latitude/Longitude</h1>
-  </header>
+    <header>
+        <h1>Get Latitude/Longitude</h1>
+    </header>
 
-  <main>
-    <p>Timestamp: <span id="timestamp"></span></p>
-    <p>Latitude: <span id="lat"></span></p>
-    <p>Longitude: <span id="long"></span></p>
-    <p>Lat/Long Accuracy (in meters): <span id="accuracy"></span></p>
-    <p>Altitude (in meters above sea level): <span id="altitude"></span></p>
-    <p>Altitude Accuracy (in meters): <span id="altitudeaccuracy"></span></p>
-    <p>Heading (Degress from true north): <span id="heading"></span></p>
-    <p>Speed (in meters/second): <span id="speed"></span></p>
+    <main>
+        <p>Timestamp: <span id="timestamp"></span></p>
+        <p>Latitude: <span id="lat"></span></p>
+        <p>Longitude: <span id="long"></span></p>
+        <p>Lat/Long Accuracy (in meters): <span id="accuracy"></span></p>
+        <p>Altitude (in meters above sea level): <span id="altitude"></span></p>
+        <p>Altitude Accuracy (in meters): <span id="altitudeaccuracy"></span></p>
+        <p>Heading (Degress from true north): <span id="heading"></span></p>
+        <p>Speed (in meters/second): <span id="speed"></span></p>
 
-    <div id="errorArea" class="alert d-none">
-    </div>
-  </main>
+        <div id="errorArea" class="alert d-none">
+        </div>
+    </main>
 
-  <script>
-    'use strict';
+    <script>
+        'use strict';
 
-    window.onload = function () {
-    };
+        window.onload = function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(displayPosition);
+            } else {
+                displayError("Please update your browser to use Geolocation");
+            }
+        };
 
-    function displayPosition(pos) {
+        function displayPosition(pos) {
+            document.getElementById("timestamp").innerText = new Date(pos.timestamp);
+            document.getElementById("lat").innerText = pos.coords.latitude;
+            document.getElementById("long").innerText = pos.coords.longitude;
+            document.getElementById("accuracy").innerText = pos.coords.accuracy;
+            document.getElementById("altitude").innerText = pos.coords.altitude;
+            document.getElementById("altitudeaccuracy").innerText = pos.coords.timestamp;
+            document.getElementById("heading").innerText = pos.coords.heading;
+            document.getElementById("speed").innerText = pos.coords.speed;
+        }
 
-    }
-
-    function displayError(msg) {
-
-    }
-  </script>
+        function displayError(msg) {
+            let errorArea = document.getElementById("errorArea");
+            errorArea.classList.remove("d-none");
+            errorArea.innerHTML = msg;
+        }
+    </script>
 </body>
 
 </html>

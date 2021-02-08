@@ -24,19 +24,18 @@
         <p>Heading (Degress from true north): <span id="heading"></span></p>
         <p>Speed (in meters/second): <span id="speed"></span></p>
 
+
+        <button onclick="testGeoController();">Test GeoController</button>
         <div id="errorArea" class="alert d-none">
         </div>
     </main>
 
+    <script src="scripts/geoController.js" type="text/javascript"></script>
     <script>
         'use strict';
 
         window.onload = function() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(displayPosition, locationError);
-            } else {
-                displayError("Please update your browser to use Geolocation");
-            }
+            geoController.getCurrentLocation(displayPosition, displayError);
         };
 
         function displayPosition(pos) {
@@ -78,6 +77,19 @@
             let errorArea = document.getElementById("errorArea");
             errorArea.classList.remove("d-none");
             errorArea.innerHTML = msg;
+        }
+
+        function testGeoController() {
+            console.log(geoController.getPosition());
+            console.log(geoController.getLastError());
+            console.log(geoController.getLastMessage());
+            console.log(geoController.getOptions());
+            geoController.setOptions({
+                enableHighAccuracy: false,
+                timeout: 5000,
+                maximumAge: 10000
+            });
+            console.log(geoController.getOptions());
         }
     </script>
 </body>

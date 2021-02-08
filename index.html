@@ -33,7 +33,7 @@
 
         window.onload = function() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(displayPosition);
+                navigator.geolocation.getCurrentPosition(displayPosition, locationError);
             } else {
                 displayError("Please update your browser to use Geolocation");
             }
@@ -48,6 +48,30 @@
             document.getElementById("altitudeaccuracy").innerText = pos.coords.timestamp;
             document.getElementById("heading").innerText = pos.coords.heading;
             document.getElementById("speed").innerText = pos.coords.speed;
+        }
+
+        function locationError(error) {
+            let msg = "";
+
+            console.log(`Error Message ${error.message}`);
+            switch (error.code) {
+                case error.PERMISSION_DENIED:
+                    msg = "User does not want to display their location";
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    msg = "Can't determine user's location";
+                    break;
+                case error.TIMEOUT:
+                    msg = "The request for geolocation timed out";
+                    break;
+                case error.UNKNOWN_ERROR:
+                    msg = "An unexpected error has ocurred";
+                    break;
+                default:
+                    break;
+            }
+
+            displayError(msg);
         }
 
         function displayError(msg) {
